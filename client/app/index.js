@@ -16,9 +16,9 @@ import NotFound from './components/App/NotFound';
 import Home from './components/Home/Home';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import Order from './components/Order';
 
-import HelloWorld from './components/HelloWorld/HelloWorld';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 
 const store = configureStore();
@@ -35,7 +35,7 @@ render((
           }}/>
           <Route path="/login" component={Login}/>
           <Route path="/signup" component={SignUp}/>
-          <Route path="/helloworld" component={HelloWorld}/>
+          <Route path="/order" component={Order}/>
           <Route component={NotFound}/>
         </Switch>
       </App>
