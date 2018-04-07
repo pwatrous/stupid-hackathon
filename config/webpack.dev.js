@@ -7,7 +7,9 @@ module.exports = merge(commonConfig, {
   devtool: 'eval-source-map',
 
   mode: 'development',
-
+  node: {
+    fs: 'empty'
+  },
   entry: {
     'app': [
       'webpack-hot-middleware/client?reload=true'
