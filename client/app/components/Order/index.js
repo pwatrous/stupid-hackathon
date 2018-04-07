@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import '../../styles/order.scss';
-require('dotenv').config();
 
 class Order extends Component {
     
@@ -11,8 +10,7 @@ class Order extends Component {
         this.state = {
             streetAddress: "",
             cityStateZip: "",
-            maxCost: 0,
-            restaurants: [],
+            restaurant: {},
             hasErrors: false,
             errorMessage: ""
         };
@@ -31,6 +29,7 @@ class Order extends Component {
     }
 
     getRestaurants = () => {
+        //TODO validate inputs before making fetch request
         const { streetAddress, cityStateZip } = this.state;
         this.setState({ hasErrors: false, errorMessage: "" });
         let address = `${streetAddress} ${cityStateZip}`.split(" ").join("+");
@@ -40,20 +39,15 @@ class Order extends Component {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Access-Token': process.env.API_KEY
+                    'X-Access-Token': '2f6313388bf0a784' // replace with process.env.API_KEY when it works lol
                 },
 
             }
         )
             .then(data => data.json())
             .then(response => {
-                console.log(response);
-                // if (response.message === 'success') {
-                //     //this.setState({})
-                // } 
-                // else {
-                //     throw new Error("Couldn't fetch restaurants");
-                // }
+                let index = Math.round(Math.random() * response.restaurants.length);
+                this.setState({ restaurant: response.restaurants[index] });
             })
             .catch(err => {
                 console.log(err)
@@ -82,13 +76,6 @@ class Order extends Component {
                         label="City, State, Zip Code"
                         margin="normal"
                         onChange={this.handleChange('cityStateZip')}
-                    />
-                    <TextField
-                        required
-                        id="maxCost"
-                        label="Max Cost"
-                        margin="normal"
-                        onChange={this.handleChange('maxCost')}
                     />
                     <Button 
                         className="submit-order" 
